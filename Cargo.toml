@@ -1,0 +1,9 @@
+[package]
+name = "wiiuse-sys"
+version = "0.1.0"
+authors = ["Colin Reeder <vpzomtrrfrt@gmail.com>"]
+
+[dependencies]
+
+[build-dependencies]
+bindgen = "0.33.1"
