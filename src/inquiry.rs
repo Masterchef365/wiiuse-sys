@@ -1,24 +1,36 @@
 use std;
 
-use wiimote_t;
+use wiimote;
 
 fn check_flag<T: std::ops::BitAnd<Output=T> + std::cmp::PartialEq + Copy>(src: T, flag: T) -> bool {
     (src & flag) == flag
 }
 
-pub fn IS_PRESSED(dev: &wiimote_t, button: u16) -> bool {
+pub fn WIIMOTE_ID(wm: &wiimote) -> i32 {
+    wm.unid
+}
+
+pub fn WIIMOTE_IS_SET(wm: &wiimote, s: i32) -> bool {
+    check_flag(wm.state, s)
+}
+
+pub fn WIIMOTE_IS_CONNECTED(wm: &wiimote) -> bool {
+    WIIMOTE_IS_SET(wm, 0x8)
+}
+
+pub fn IS_PRESSED(dev: &wiimote, button: u16) -> bool {
     check_flag(dev.btns, button)
 }
 
-pub fn IS_HELD(dev: &wiimote_t, button: u16) -> bool {
+pub fn IS_HELD(dev: &wiimote, button: u16) -> bool {
     check_flag(dev.btns_held, button)
 }
 
-pub fn IS_RELEASED(dev: &wiimote_t, button: u16) -> bool {
+pub fn IS_RELEASED(dev: &wiimote, button: u16) -> bool {
     check_flag(dev.btns_released, button)
 }
 
-pub fn IS_JUST_PRESSED(dev: &wiimote_t, button: u16) -> bool {
+pub fn IS_JUST_PRESSED(dev: &wiimote, button: u16) -> bool {
     IS_PRESSED(dev, button) && !IS_HELD(dev, button)
 }
 
@@ -26,7 +38,7 @@ pub fn IS_JUST_PRESSED(dev: &wiimote_t, button: u16) -> bool {
  * This method diverges from the original source slightly.
  * I hope that's okay.
  */
-pub fn WIIUSE_GET_IR_SENSITIVITY(wm: &wiimote_t) -> u8 {
+pub fn WIIUSE_GET_IR_SENSITIVITY(wm: &wiimote) -> u8 {
     if check_flag(wm.state, 0x0200) { return 1; }
     else if check_flag(wm.state, 0x0400) { return 2; }
     else if check_flag(wm.state, 0x0800) { return 3; }
@@ -35,23 +47,23 @@ pub fn WIIUSE_GET_IR_SENSITIVITY(wm: &wiimote_t) -> u8 {
     0
 }
 
-pub fn WIIUSE_USING_ACC(wm: &wiimote_t) -> bool {
+pub fn WIIUSE_USING_ACC(wm: &wiimote) -> bool {
     check_flag(wm.state, 0x020)
 }
 
-pub fn WIIUSE_USING_EXP(wm: &wiimote_t) -> bool {
+pub fn WIIUSE_USING_EXP(wm: &wiimote) -> bool {
     check_flag(wm.state, 0x040)
 }
 
-pub fn WIIUSE_USING_IR(wm: &wiimote_t) -> bool {
+pub fn WIIUSE_USING_IR(wm: &wiimote) -> bool {
     check_flag(wm.state, 0x080)
 }
 
-pub fn WIIUSE_USING_SPEAKER(wm: &wiimote_t) -> bool {
+pub fn WIIUSE_USING_SPEAKER(wm: &wiimote) -> bool {
     check_flag(wm.state, 0x100)
 }
 
-pub fn WIIUSE_IS_LED_SET(wm: &wiimote_t, num: u8) -> bool {
+pub fn WIIUSE_IS_LED_SET(wm: &wiimote, num: u8) -> bool {
     use WIIMOTE_LED_1;
     use WIIMOTE_LED_2;
     use WIIMOTE_LED_3;
