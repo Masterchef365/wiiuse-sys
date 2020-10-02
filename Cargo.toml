@@ -9,4 +9,4 @@ repository = "https://github.com/vpzomtrrfrt/wiiuse-sys"
 [dependencies]
 
 [build-dependencies]
-bindgen = "0.33.1"
+bindgen = "0.55"
