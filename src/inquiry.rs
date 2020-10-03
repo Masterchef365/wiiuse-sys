@@ -2,7 +2,10 @@ use std;
 
 use wiimote;
 
-fn check_flag<T: std::ops::BitAnd<Output=T> + std::cmp::PartialEq + Copy>(src: T, flag: T) -> bool {
+fn check_flag<T: std::ops::BitAnd<Output = T> + std::cmp::PartialEq + Copy>(
+    src: T,
+    flag: T,
+) -> bool {
     (src & flag) == flag
 }
 
@@ -39,11 +42,17 @@ pub fn IS_JUST_PRESSED(dev: &wiimote, button: u16) -> bool {
  * I hope that's okay.
  */
 pub fn WIIUSE_GET_IR_SENSITIVITY(wm: &wiimote) -> u8 {
-    if check_flag(wm.state, 0x0200) { return 1; }
-    else if check_flag(wm.state, 0x0400) { return 2; }
-    else if check_flag(wm.state, 0x0800) { return 3; }
-    else if check_flag(wm.state, 0x1000) { return 4; }
-    else if check_flag(wm.state, 0x2000) { return 5; }
+    if check_flag(wm.state, 0x0200) {
+        return 1;
+    } else if check_flag(wm.state, 0x0400) {
+        return 2;
+    } else if check_flag(wm.state, 0x0800) {
+        return 3;
+    } else if check_flag(wm.state, 0x1000) {
+        return 4;
+    } else if check_flag(wm.state, 0x2000) {
+        return 5;
+    }
     0
 }
 
@@ -69,11 +78,15 @@ pub fn WIIUSE_IS_LED_SET(wm: &wiimote, num: u8) -> bool {
     use WIIMOTE_LED_3;
     use WIIMOTE_LED_4;
 
-    check_flag(i64::from(wm.state), match num {
-        1 => WIIMOTE_LED_1,
-        2 => WIIMOTE_LED_2,
-        3 => WIIMOTE_LED_3,
-        4 => WIIMOTE_LED_4,
-        _ => panic!("no such wiimote led")
-    }.into())
+    check_flag(
+        i64::from(wm.state),
+        match num {
+            1 => WIIMOTE_LED_1,
+            2 => WIIMOTE_LED_2,
+            3 => WIIMOTE_LED_3,
+            4 => WIIMOTE_LED_4,
+            _ => panic!("no such wiimote led"),
+        }
+        .into(),
+    )
 }
