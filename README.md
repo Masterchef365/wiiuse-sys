@@ -15,6 +15,7 @@ NOTE: This is a fork!
     * `C:\Program Files (x86)\WiiUse\bin\`
 * On Windows, I needed to use [WiiPair](https://github.com/jmandawg/wiipair) in order to connect to my Wii devices.
 
-## Fixed
-* Add type/function blacklist as per https://github.com/rust-lang/rust-bindgen/issues/1556
+## Changes in this fork
+* Added type/function blacklist as per https://github.com/rust-lang/rust-bindgen/issues/1556
     * Also note: https://github.com/rust-lang/rust/issues/59154
+* Added paths for `.lib` and `wiiuse.h` on Windows
